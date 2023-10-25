@@ -34,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
     $wc = $_POST["wc"];
     $vendedor_id = $_POST["vendedor_id"];
     $estacionamiento = $_POST["estacionamiento"];
+    $creado= date('Y-m-d');
+
 
 
     if (!$titulo) {
@@ -66,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
          //insertar en la base de datos
 
 
-    $query = "INSERT INTO propiedades  (titulo,precio,descripcion,habitaciones,wc,estacionamiento,vendedores_id ) 
-    VALUES ('$titulo',$precio,'$descripcion',$habitaciones,$wc,$estacionamiento,$vendedor_id)";
+    $query = "INSERT INTO propiedades  (titulo,precio,descripcion,habitaciones,wc,estacionamiento,creado,vendedores_id ) 
+    VALUES ('$titulo',$precio,'$descripcion',$habitaciones,$wc,$estacionamiento,$creado,$vendedor_id)";
 
     $resultado = mysqli_query($db, $query);
     if ($resultado) {
@@ -152,9 +154,9 @@ incluirTemplate('header');
             <select name="vendedor_id" id="vendedor_id" required>
                 <option value="">--Seleccione--</option>
 
-                <?php  while($vendedor= mysqli_fetch_assoc($resultado_consulta)) : ?>
-                    <option value="1"><?php $vendedor['nombre']. " " . $vendedor['apellidos']; ?></option>
-                <?php endwhile;  ?>
+                <?php while ($referencia = mysqli_fetch_array($resultado_consulta)) { ?>
+                <option <?php  echo $vendedor_id ===$referencia['id'] ? 'selected' : '';   ?> value="<?php  echo $referencia['id'] ;  ?>"><?php echo $referencia['nombre'] . " " .$referencia['apellidos']; ?></option>
+                <?php } ?>
             </select>
         </fieldset>
 
